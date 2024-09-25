@@ -1,5 +1,5 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
+
     $conf = array();
 
     //dados de ligacao á base de dados

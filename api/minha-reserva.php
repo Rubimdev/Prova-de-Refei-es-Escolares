@@ -1,48 +1,44 @@
 <?php
-header('Content-Type: text/html; charset=utf-8');
-session_start();
+session_start(); // Inicia a sessão
+
 require_once "lib/base-dados.php";
 
-// ementas da base de dados
-$ementas = $bd->select("ementas", "*");
+// Verifica se o utilizador está autenticado
+if (!isset($_SESSION["autenticado"])) {
+    echo "<h1>Acesso negado</h1>";
+    exit;
+}
 
-// meses em português
-$mesesPortugues = [
-    '01' => 'Janeiro',
-    '02' => 'Fevereiro',
-    '03' => 'Março',
-    '04' => 'Abril',
-    '05' => 'Maio',
-    '06' => 'Junho',
-    '07' => 'Julho',
-    '08' => 'Agosto',
-    '09' => 'Setembro',
-    '10' => 'Outubro',
-    '11' => 'Novembro',
-    '12' => 'Dezembro'
-];
+$mensagem = '';
+$classeMensagem = '';
 
-// mês e ano atuais
-$mesAtual = date('m');
-$anoAtual = date('Y');
+// cancelar a reserva
+if (isset($_POST['cancelar_reserva'])) {
+    $bd->delete("reservas", [
+        "id" => $_POST['reserva_id']
+    ]);
+    $mensagem = "Reserva cancelada com sucesso.";
+    $classeMensagem = "alert-success";
+}
+
+//reserva 
+$reserva = $bd->get("reservas", "*", [
+    "id_utilizador" => $_SESSION["id"]
+]);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel de Controlo</title>
+    <title>Minha Reserva</title>
 
     <link rel="icon" href="images/favicon-espan.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/dashboard-style.css" />
     <link rel="stylesheet" href="css/media-query.css" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 </head>
 <body>
     <form action="" method="post" class="d-flex flex-column min-vh-100">
@@ -57,7 +53,7 @@ $anoAtual = date('Y');
                         <div class="vr"></div>
                         <a href="minha-reserva.php">Minha Reserva</a>
                         <div class="vr"></div>
-                        <a href="#">Ementa</a>
+                        <a href="ementa.php">Ementa</a>
                         <div class="vr"></div>
                         <div class="dropdown d-inline">
                             <a class="dropdown-toggle" href="#" role="button" id="dropdownCredenciais" data-bs-toggle="dropdown" aria-expanded="false">
@@ -71,36 +67,42 @@ $anoAtual = date('Y');
                 </div>
             </div>
         </header>
+
         <div class="container mt-5">
-            <h2>Ementas Disponíveis</h2>
-            <div class="row">
-                <?php if ($ementas) { ?>
-                    <?php foreach ($ementas as $ementa) { ?>
-                        <div class="col-12 mb-4">
-                            <div class="card">
-                                <div class="card-body d-flex justify-content-between align-items-center">
-                                    <h5 class="card-title mb-0">
-                                        <?php 
-                                        list($mes, $ano) = explode('-', $ementa['mes']);
-                                        echo $mesesPortugues[$mes] . " $ano"; 
-                                        if ($mes == $mesAtual && $ano == $anoAtual) {
-                                            echo "<span class='indicator'>EM VIGOR</span>";
-                                        }
-                                        ?>
-                                    </h5>
-                                    <div>
-                                        <a href="<?php echo $ementa['file_path']; ?>" target="_blank" class="btn btn-download">
-                                            <i class="material-icons">file_download</i>
-                                        </a>
-                                    </div>
-                                </div>
+            <?php if ($mensagem) { ?>
+                <div class="alert <?php echo $classeMensagem; ?>"><?php echo $mensagem; ?></div>
+            <?php } ?>
+            
+            <?php if ($reserva) { ?>
+                <div class="form-group-container">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="details">
+                                <i class="material-icons">school</i>
+                                <p><strong>Escola:</strong> <?php echo $reserva["escola"]; ?></p>
+                            </div>
+                            <div class="details">
+                                <i class="material-icons">access_time</i>
+                                <p><strong>Hora:</strong> <?php echo $reserva["hora"]; ?></p>
+                            </div>
+                            <div class="details">
+                                <i class="material-icons">calendar_today</i>
+                                <p><strong>Data:</strong> <?php echo $reserva["data"]; ?></p>
+                            </div>
+                            <div class="details">
+                                <i class="material-icons">info</i>
+                                <p><strong>Estado:</strong> <?php echo ucfirst($reserva["status"]); ?></p>
+                            </div>
+                            <div class="details">
+                                <input type="hidden" name="reserva_id" value="<?php echo $reserva['id']; ?>">
+                                <button type="submit" name="cancelar_reserva" class="btn btn-danger" onclick="return confirm('Tem a certeza que deseja cancelar a reserva?');">Cancelar Reserva</button>
                             </div>
                         </div>
-                    <?php } ?>
-                <?php } else { ?>
-                    <p class="alert alert-warning">Nenhuma ementa disponível.</p>
-                <?php } ?>
-            </div>
+                    </div>
+                </div>
+            <?php } else { ?>
+                <p class="alert alert-warning">Não há nenhuma reserva ativa.</p>
+            <?php } ?>
         </div>
 
         <footer class="d-flex footer mt-auto">
@@ -111,11 +113,10 @@ $anoAtual = date('Y');
             <ul class="nav col-md-4 footer-links">
                 <li class="nav-item"><a href="dashboard.php" class="nav-link texto">Home</a></li>
                 <li class="nav-item"><a href="minha-reserva.php" class="nav-link texto">Minha Reserva</a></li>
-                <li class="nav-item"><a href="#" class="nav-link texto">Ementa</a></li>
+                <li class="nav-item"><a href="ementa.php" class="nav-link texto">Ementa</a></li>
             </ul>
         </footer>
     </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="js/script.js"></script>
 </body>
 </html>

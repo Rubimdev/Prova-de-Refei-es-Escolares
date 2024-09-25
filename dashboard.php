@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 session_start(); // Inicia a sessão
 
 require_once "lib/base-dados.php"; // Inclui a base de dados

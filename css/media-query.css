@@ -1,0 +1,67 @@
+/* telemóveis */
+@media screen and (max-width: 767px) {
+  section#formulario {
+    min-width: 300px;
+    min-height: 560px;
+    height: auto;
+    padding: 2rem;
+  }
+  .carousel {
+    width: 80%;
+    margin: 0 auto;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+  }
+
+  .header img {
+      max-width: 200px; 
+      max-height: auto; /
+  }
+
+  .header-links {
+      display: flex;
+      align-items: center; 
+      justify-content: space-between; 
+      flex-wrap: wrap; 
+  }
+
+  .header-links a {
+      padding: 5px; 
+      margin: 5px;
+  }
+
+  .dropdown-menu {
+      min-width: auto; 
+  }
+  .footer {
+    padding: 10px 0;
+    display: flex;
+    text-align: left;
+  }
+
+  .footer-links{
+    padding-bottom: 10px;
+  }
+  .footer .texto{
+    padding-left: 15px;
+  }
+  .table{
+    font-size: 15px;
+  }
+
+}
+
+/* PCs */
+@media screen and (min-width: 768px) {
+  section#formulario {
+    height: auto;
+    max-width: 400px;
+    min-height: 640px;
+    padding: 3rem;
+  }
+}

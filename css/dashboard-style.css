@@ -1,0 +1,142 @@
+* {
+    padding: 0px;
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.d-flex-column {
+    display: flex; 
+    flex-direction: column;
+}
+
+.bold-name {
+    font-weight: bold; /* Define o nome em negrito */
+    color: #f60;
+}
+
+/* Outros estilos existentes */
+.header {
+    width: 100%;
+    background-color: #24264B;
+    align-items: center;
+    color: white; /* Cor do texto */
+}
+
+.header img {
+    max-height: 120px;
+    padding: 10px;
+}
+
+.header-links a {
+    color: white; 
+    text-decoration: none; 
+    padding: 10px;
+    border-radius: 5px; 
+}
+
+.header-links a:hover {
+    background-color: #1E202F; 
+}
+
+.dropdown-menu a {
+    color: #1e1f3a; 
+    padding: 15px;
+    margin: 0;
+}
+
+.dropdown-menu a:hover {
+    background-color: rgba(36, 38, 75, 0.6); 
+    border-radius: 5px;
+}
+
+.footer {
+    width: 100%;
+    background-color: #24264B;
+    align-items: center;
+    text-align: center;
+    color: white !important;
+    padding: 20px;
+}
+
+.footer-links a{
+    color: white !important;
+}
+
+.footer-links a:hover {
+    background-color: #1E202F; 
+    border-radius: 5px;
+}
+
+.welcome-message {
+    text-align: center; 
+    color: #24264B; 
+    font-size: 220%;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.carousel {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.carousel img {
+    width: 100%;
+    border-radius: 20px;
+}
+
+.form-group-container {
+    background-color: rgb(230, 230, 230); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); 
+    border-radius: 10px; 
+    margin: auto; 
+    margin-top: 100px;
+    margin-bottom: 100px;
+    width: 70%;
+    padding: 20px;
+}
+
+.submit input[type="submit"]{
+    width: 100%;
+    margin-top: 15px;
+    color: #fff;
+    background: #1e1f3a;
+    padding: 15px;
+    border: 0;  
+    border-radius: 0.5rem;
+}
+
+.submit input[type="submit"]:hover {
+    background: #f60;
+}
+
+.table {
+    align-items: center;
+}
+
+
+.btn-download:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.btn-download i {
+    color: #1e1f3a; 
+}
+
+.btn-delete i{
+    color: #dc3545
+}
+
+.btn-delete:hover{
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+
+.indicator {
+    margin-left: 10px;
+    padding: 4px 8px;
+    background-color: #007bff;
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+}
